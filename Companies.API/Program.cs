@@ -9,12 +9,16 @@ namespace Companies.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<APIContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("APIContext") ?? throw new InvalidOperationException("Connection string 'APIContext' not found.")));
+          
 
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<APIContext>(options =>
+              options.UseSqlServer(builder.Configuration.GetConnectionString("APIContext") 
+              ?? throw new InvalidOperationException("Connection string 'APIContext' not found.")));
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
