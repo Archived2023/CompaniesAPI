@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Companies.API.Data;
 using Companies.API.Entities;
+using Companies.API.Dtos.CompaniesDtos;
 
 namespace Companies.API.Controllers
 {
@@ -23,9 +24,19 @@ namespace Companies.API.Controllers
 
         // GET: api/Companies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Company>>> GetCompany()
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
         {
-            return await _context.Companies.ToListAsync();
+            var companies = _context.Companies;
+
+            var companyDtos = companies.Select(c => new CompanyDto
+            {
+                Name = c.Name,
+                Address = c.Address,
+                Id = c.Id,
+                Country = c.Country
+            });
+
+            return Ok(await companyDtos.ToListAsync());
         }
 
         // GET: api/Companies/5

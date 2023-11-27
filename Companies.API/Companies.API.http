@@ -1,6 +1,8 @@
-@Companies.API_HostAddress = http://localhost:5199
+@Companies.API_HostAddress = https://localhost:7157
 
-GET {{Companies.API_HostAddress}}/weatherforecast/
+
+
+GET {{Companies.API_HostAddress}}/api/companies
 Accept: application/json
 
 ###
