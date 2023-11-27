@@ -16,5 +16,8 @@ namespace Companies.API.Entities
         [Required(ErrorMessage = "Position is a required field.")]
         [StringLength(maximumLength: 20, MinimumLength = 3, ErrorMessage = "Maximum length for the Position is 20 characters.")]
         public string Position { get; set; } = string.Empty;
+
+        public Guid CompanyId { get; set; }
+        public Company Company { get; set; } = new Company();
     }
 }
