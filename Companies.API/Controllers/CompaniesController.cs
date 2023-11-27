@@ -50,7 +50,15 @@ namespace Companies.API.Controllers
                 return NotFound();
             }
 
-            return company;
+            var companyDto = new CompanyDto
+            {
+                Id = company.Id,
+                Name = company.Name,
+                Address = company.Address,
+                Country = company.Country
+            };
+
+            return Ok(companyDto);
         }
 
         // PUT: api/Companies/5
