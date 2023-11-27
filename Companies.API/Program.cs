@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Companies.API.Data;
+using Companies.API.Extensions;
 
 namespace Companies.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
           
@@ -30,6 +31,7 @@ namespace Companies.API
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                await app.SeedDataAsync();
             }
 
             app.UseHttpsRedirection();
