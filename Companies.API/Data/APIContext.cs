@@ -22,5 +22,6 @@ namespace Companies.API.Data
 
             modelBuilder.Entity<Company>().ToTable(nameof(Company));
         }
+        public DbSet<Companies.API.Entities.Employee> Employee { get; set; } = default!;
     }
 }
