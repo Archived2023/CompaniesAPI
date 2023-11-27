@@ -10,7 +10,7 @@ namespace Companies.API.Data
         {
             db = context ?? throw new ArgumentNullException(nameof(context));
 
-            if (await db.Company.AnyAsync()) return;
+            if (await db.Companies.AnyAsync()) return;
         }
     }
 }

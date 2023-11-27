@@ -14,6 +14,13 @@ namespace Companies.API.Data
         {
         }
 
-        public DbSet<Company> Company => Set<Company>();
+        public DbSet<Company> Companies => Set<Company>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Company>().ToTable(nameof(Company));
+        }
     }
 }
