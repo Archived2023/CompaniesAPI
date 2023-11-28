@@ -26,7 +26,7 @@ namespace Companies.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(Guid companyId)
         {
-            var company = await db.Companies.AsNoTracking().FirstOrDefaultAsync(c => c.Id == companyId);
+            var company = await db.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
 
             if(company is null) return NotFound();
 

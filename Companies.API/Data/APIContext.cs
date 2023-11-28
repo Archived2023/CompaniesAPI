@@ -12,10 +12,20 @@ namespace Companies.API.Data
         public APIContext (DbContextOptions<APIContext> options)
             : base(options)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Employee> Employees => Set<Employee>();
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
