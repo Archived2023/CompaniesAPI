@@ -23,7 +23,7 @@ namespace Companies.API.Controllers
         }
 
         // GET: api/Companies
-        [HttpGet]
+        [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
         {
             var companies = _context.Companies;
@@ -94,14 +94,29 @@ namespace Companies.API.Controllers
 
         //// POST: api/Companies
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Company>> PostCompany(Company company)
-        //{
-        //    _context.Companies.Add(company);
-        //    await _context.SaveChangesAsync();
+        [HttpPost]
+        public async Task<ActionResult<Company>> PostCompany(CompanyForCreationDto dto)
+        {
+            var company = new Company
+            {
+                Name = dto.Name,
+                Address = dto.Address!,
+                Country = dto.Country!
+            };
 
-        //    return CreatedAtAction("GetCompany", new { id = company.Id }, company);
-        //}
+            _context.Companies.Add(company);
+            await _context.SaveChangesAsync();
+
+            var companyToReturn = new CompanyDto
+            {
+                Name = company.Name,
+                Id = company.Id,
+                Country = company.Country,
+                Address = company.Address
+            };
+
+            return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyToReturn);
+        }
 
         //// DELETE: api/Companies/5
         //[HttpDelete("{id}")]
