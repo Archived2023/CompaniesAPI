@@ -13,7 +13,9 @@ namespace Companies.API.Entities
         [Required(ErrorMessage = "Company address is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Address is 60 characters")]
         public string Address { get; set; } = string.Empty;
-        public string Country { get; set; } = string.Empty;
+      
+        [MaxLength(30, ErrorMessage = "Maximum length for the {0} is {1} characters")]
+        public string? Country { get; set; } = string.Empty;
 
         //Nav prop
         public ICollection<Employee> Employees { get; set; } = new List<Employee>();

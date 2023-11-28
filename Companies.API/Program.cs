@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Companies.API.Data;
 using Companies.API.Extensions;
+using Companies.API.Mappings;
 
 namespace Companies.API
 {
@@ -27,6 +28,7 @@ namespace Companies.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(typeof(CompanyMappings));
 
             var app = builder.Build();
 

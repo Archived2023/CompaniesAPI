@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Companies.API.Data;
 using Companies.API.Entities;
 using Companies.API.Dtos.CompaniesDtos;
+using AutoMapper;
 
 namespace Companies.API.Controllers
 {
@@ -16,27 +17,29 @@ namespace Companies.API.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IMapper mapper;
 
-        public CompaniesController(APIContext context)
+        public CompaniesController(APIContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Companies
         [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
         {
-            var companies = _context.Companies;
+            //var companies = _context.Companies;
 
-            var companyDtos = companies.Select(c => new CompanyDto
-            {
-                Name = c.Name,
-                Address = c.Address,
-                Id = c.Id,
-                Country = c.Country
-            });
+            //var companyDtos = companies.Select(c => new CompanyDto
+            //{
+            //    Name = c.Name,
+            //    Address = c.Address,
+            //    Id = c.Id
+            //    //Country = c.Country
+            //});
 
-            return Ok(await companyDtos.ToListAsync());
+            return Ok(await mapper.ProjectTo<CompanyDto>(_context.Companies).ToListAsync());
         }
 
         // GET: api/Companies/5
@@ -54,8 +57,8 @@ namespace Companies.API.Controllers
             {
                 Id = company.Id,
                 Name = company.Name,
-                Address = company.Address,
-                Country = company.Country
+                Address = company.Address
+               // Country = company.Country
             };
 
             return Ok(companyDto);
@@ -111,7 +114,7 @@ namespace Companies.API.Controllers
             {
                 Name = company.Name,
                 Id = company.Id,
-                Country = company.Country,
+               // Country = company.Country,
                 Address = company.Address
             };
 
