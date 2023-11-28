@@ -8,7 +8,10 @@ namespace Companies.API.Mappings
     {
         public EmployeeMappings()
         {
-            CreateMap<Employee, EmployeeDto>();
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(
+                dest => dest.Position,
+                from => from.MapFrom(e => e.Department.Name));
         }
     }
 }

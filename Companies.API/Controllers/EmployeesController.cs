@@ -29,7 +29,7 @@ namespace Companies.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(Guid companyId)
         {
-            var company = await db.Companies.Include(c => c.Employees).FirstOrDefaultAsync(c => c.Id == companyId);
+            var company = await db.Companies.Include(c => c.Employees).ThenInclude(e => e.Department).FirstOrDefaultAsync(c => c.Id == companyId);
 
             if(company is null) return NotFound();
 
