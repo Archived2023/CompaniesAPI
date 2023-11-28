@@ -105,20 +105,20 @@ namespace Companies.API.Controllers
         }
 
         //// DELETE: api/Companies/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteCompany(Guid id)
-        //{
-        //    var company = await _context.Companies.FindAsync(id);
-        //    if (company == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompany(Guid id)
+        {
+            var company = await _context.Companies.FindAsync(id);
+            if (company == null)
+            {
+                return NotFound();
+            }
 
-        //    _context.Companies.Remove(company);
-        //    await _context.SaveChangesAsync();
+            _context.Companies.Remove(company);
+            await _context.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
         //private bool CompanyExists(Guid id)
         //{
