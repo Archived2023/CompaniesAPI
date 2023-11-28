@@ -14,33 +14,54 @@ namespace Companies.API.Data
 
             if (await db.Companies.AnyAsync()) return;
 
-            var companies = GenerateCompanies(5);
+            var departments = GenerateDepartments();
+            await db.AddRangeAsync(departments);
+            var companies = GenerateCompanies(5, departments);
             await db.AddRangeAsync(companies);
             await db.SaveChangesAsync();
         }
 
-        private static IEnumerable<Company> GenerateCompanies(int nrOfCompanies)
+        private static IEnumerable<Department> GenerateDepartments()
+        {
+            string[] positions = ["Developer", "Tester", "Manager"];
+
+            List<Department> departments = new List<Department>();
+
+            for (int i = 0; i < positions.Length; i++)
+            {
+                var department = new Department
+                {
+                    Name = positions[i]
+                };
+
+                departments.Add(department);
+            }
+            
+            return departments;
+        }
+
+        private static IEnumerable<Company> GenerateCompanies(int nrOfCompanies, IEnumerable<Department> departments)
         {
             var faker = new Faker<Company>("sv").Rules((f, c) =>
             {
                 c.Name = f.Company.CompanyName();
                 c.Country = f.Address.Country();
                 c.Address = f.Address.StreetAddress();
-                c.Employees = GenerateEmployees(f.Random.Int(min: 2, max: 10));
+                c.Employees = GenerateEmployees(f.Random.Int(min: 2, max: 10), departments);
             });
 
             return faker.Generate(nrOfCompanies);
         }
 
-        private static ICollection<Employee> GenerateEmployees(int nrOfEmplyees)
+        private static ICollection<Employee> GenerateEmployees(int nrOfEmplyees, IEnumerable<Department> departments)
         {
-            string[] positions = ["Developer", "Tester", "Manager"];
+            var departmentList = departments.ToList();
 
             var faker = new Faker<Employee>("sv").Rules((f, e) =>
             {
                 e.Name = f.Person.FullName;
                 e.Age = f.Random.Int(min: 18, max: 70);
-                e.Position = positions[f.Random.Int(0, positions.Length - 1)];
+                e.Department = departmentList[f.Random.Int(0, departmentList.Count - 1)];
             });
 
             return faker.Generate(nrOfEmplyees);
