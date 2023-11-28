@@ -10,14 +10,15 @@ namespace Companies.API
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-          
+
 
             // Add services to the container.
 
             builder.Services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
-            }).AddXmlDataContractSerializerFormatters();
+            });
+                //.AddXmlDataContractSerializerFormatters();
 
             builder.Services.AddDbContext<APIContext>(options =>
               options.UseSqlServer(builder.Configuration.GetConnectionString("APIContext") 

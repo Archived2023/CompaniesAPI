@@ -15,13 +15,14 @@ namespace Companies.API.Data
         }
 
         public DbSet<Company> Companies => Set<Company>();
+        public DbSet<Employee> Employees => Set<Employee>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Company>().ToTable(nameof(Company));
+            modelBuilder.Entity<Employee>().ToTable(nameof(Employee));
         }
-        public DbSet<Companies.API.Entities.Employee> Employee { get; set; } = default!;
     }
 }
