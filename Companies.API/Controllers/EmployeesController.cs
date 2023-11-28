@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Companies.API.Data;
 using Companies.API.Entities;
 using Companies.API.Dtos.EmployeesDtos;
+using AutoMapper;
 
 namespace Companies.API.Controllers
 {
@@ -16,29 +17,23 @@ namespace Companies.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly APIContext db;
+        private readonly IMapper mapper;
 
-        public EmployeesController(APIContext context)
+        public EmployeesController(APIContext context, IMapper mapper)
         {
             db = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(Guid companyId)
         {
-            var company = await db.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+            var company = await db.Companies.Include(c => c.Employees).FirstOrDefaultAsync(c => c.Id == companyId);
 
             if(company is null) return NotFound();
 
-            var employees = await db.Employees.Where(e => e.CompanyId.Equals(company.Id)).ToListAsync();
-
-            var employeeDtos = employees.Select(e => new EmployeeDto
-            {
-                Id = e.Id,
-                Name = e.Name,
-                Age = e.Age,
-                Position = e.Position
-            });
+            var employeeDtos = mapper.Map<IEnumerable<EmployeeDto>>(company.Employees);
 
             return Ok(employeeDtos);
         }
