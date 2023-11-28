@@ -61,18 +61,22 @@ namespace Companies.API.Controllers
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(Guid id, Company company)
+        public async Task<IActionResult> PutCompany(Guid id, CompanyForUpdateDto dto)
         {
-            if (id != company.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(company).State = EntityState.Modified;
+            var existingCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == id);
 
-           
+            if(existingCompany == null) return NotFound();
 
-            return NoContent();
+            mapper.Map(dto, existingCompany);
+            await _context.SaveChangesAsync();
+
+           // return NoContent();
+           return Ok(mapper.Map<CompanyDto>(existingCompany)); //Only for demo!!!! 
         }
 
         //// POST: api/Companies
