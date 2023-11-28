@@ -15,6 +15,8 @@ namespace Companies.API.Mappings
                     c => $"{c.Address}{(string.IsNullOrEmpty(c.Country) ? 
                     string.Empty : 
                     $", {c.Country}")}"));
+
+            CreateMap<CompanyForCreationDto, Company>();
         }
     }
 }
