@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Companies.API.Data;
 using Companies.API.Entities;
+using Companies.API.Dtos.EmployeesDtos;
 
 namespace Companies.API.Controllers
 {
@@ -14,18 +15,32 @@ namespace Companies.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly APIContext _context;
+        private readonly APIContext db;
 
         public EmployeesController(APIContext context)
         {
-            _context = context;
+            db = context;
         }
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee()
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(Guid companyId)
         {
-            return await _context.Employees.ToListAsync();
+            var company = await db.Companies.AsNoTracking().FirstOrDefaultAsync(c => c.Id == companyId);
+
+            if(company is null) return NotFound();
+
+            var employees = await db.Employees.Where(e => e.CompanyId.Equals(company.Id)).ToListAsync();
+
+            var employeeDtos = employees.Select(e => new EmployeeDto
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Age = e.Age,
+                Position = e.Position
+            });
+
+            return Ok(employeeDtos);
         }
 
         // GET: api/Employees/5
