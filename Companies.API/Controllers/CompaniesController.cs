@@ -27,19 +27,16 @@ namespace Companies.API.Controllers
 
         // GET: api/Companies
         [HttpGet(Name = "RouteName")]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
         {
-            //var companies = _context.Companies;
+            //Dont work!!!
+            //var dtos = includeEmployees ? mapper.ProjectTo<CompanyDto>(_context.Companies.Include(c => c.Employees)) :
+            //                              mapper.ProjectTo<CompanyDto>(_context.Companies); 
 
-            //var companyDtos = companies.Select(c => new CompanyDto
-            //{
-            //    Name = c.Name,
-            //    Address = c.Address,
-            //    Id = c.Id
-            //    //Country = c.Country
-            //});
+            var dtos = includeEmployees ? await mapper.ProjectTo<CompanyDto>(_context.Companies).ToListAsync() :
+                                          mapper.Map<IEnumerable<CompanyDto>>(await _context.Companies.ToListAsync());
 
-            return Ok(await mapper.ProjectTo<CompanyDto>(_context.Companies).ToListAsync());
+            return Ok(dtos);
         }
 
         // GET: api/Companies/5
