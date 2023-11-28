@@ -53,13 +53,7 @@ namespace Companies.API.Controllers
                 return NotFound();
             }
 
-            var companyDto = new CompanyDto
-            {
-                Id = company.Id,
-                Name = company.Name,
-                Address = company.Address
-               // Country = company.Country
-            };
+            var companyDto = mapper.Map<CompanyDto>(company);
 
             return Ok(companyDto);
         }
