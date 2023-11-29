@@ -15,14 +15,17 @@ namespace Companies.API.Dtos.EmployeesDtos
     {
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(30)]
         public string? Name { get; init; }
 
         [Range(18, 80)]
         public int Age { get; init; }
 
-        public string? Position { get; init; }
+        //public string? Position { get; init; }
     }
 
-    public record EmployeesForUpdateDto() : EmployeeForManipulationDto { }
+    public record EmployeesForUpdateDto() : EmployeeForManipulationDto 
+    {
+        public Guid DepartmentId { get; set; }
+    }
 }

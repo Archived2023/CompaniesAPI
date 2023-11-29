@@ -69,13 +69,18 @@ namespace Companies.API.Controllers
 
             if (company is null) return NotFound("No comp found");
 
-            var empToPatch = await db.Employees.Include(e => e.Department).FirstOrDefaultAsync(e => e.Id == employeeId);
+            var empToPatch = await db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
 
             if (empToPatch is null) return NotFound();
 
             var dto = mapper.Map<EmployeesForUpdateDto>(empToPatch);
 
-            patchDoc.ApplyTo(dto);
+            patchDoc.ApplyTo(dto, ModelState);
+
+            await TryUpdateModelAsync(dto);
+
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
 
             mapper.Map(dto, empToPatch);
             db.Update(empToPatch);
