@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace Companies.API.Controllers
 {
-    [Route("api/companies/{companyId}/employees")]
+    [Route("api/companies/{companyId:guid}/employees")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
@@ -27,7 +27,7 @@ namespace Companies.API.Controllers
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(Guid companyId)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployee(Guid companyId)
         {
             var company = await db.Companies.Include(c => c.Employees).ThenInclude(e => e.Department).FirstOrDefaultAsync(c => c.Id == companyId);
 
@@ -36,6 +36,25 @@ namespace Companies.API.Controllers
             var employeeDtos = mapper.Map<IEnumerable<EmployeeDto>>(company.Employees);
 
             return Ok(employeeDtos);
+        }
+
+
+        [HttpGet("{employeeId:guid}")]
+        public async Task<ActionResult<EmployeeDto>> GetEmployeesForCompany(Guid companyId, Guid employeeId)
+        {
+            var company = await db.Companies.FirstOrDefaultAsync(c => c.Id.Equals(companyId));
+
+            if (company is null) return NotFound("Company not found");
+
+            var employee = await db.Employees.Include(e => e.Department)
+                                             .FirstOrDefaultAsync(e => e.CompanyId.Equals(companyId));
+
+            if (employee is null) return NotFound("Employee not found");
+
+            var employeeDto = mapper.Map<EmployeeDto>(employee);
+
+            return Ok(employeeDto);
+
         }
 
         // GET: api/Employees/5
