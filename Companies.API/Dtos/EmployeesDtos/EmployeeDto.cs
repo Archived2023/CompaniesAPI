@@ -9,5 +9,20 @@ namespace Companies.API.Dtos.EmployeesDtos
 
         public int Age { get; init; }
         public string? Position { get; init; }
+    } 
+    
+    public abstract record EmployeeForManipulationDto()
+    {
+
+        [Required]
+        [MaxLength(20)]
+        public string? Name { get; init; }
+
+        [Range(18, 80)]
+        public int Age { get; init; }
+
+        public string? Position { get; init; }
     }
+
+    public record EmployeesForUpdateDto() : EmployeeForManipulationDto { }
 }

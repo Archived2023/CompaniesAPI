@@ -17,9 +17,9 @@ namespace Companies.API.Entities
         //[StringLength(maximumLength: 20, MinimumLength = 3, ErrorMessage = "Maximum length for the Position is 20 characters.")]
         //public string Position { get; set; } = string.Empty;
         public Guid DepartmentId { get; set; }
-        public Department Department { get; set; } 
+        public Department Department { get; set; } = default!;
 
         public Guid CompanyId { get; set; }
-        public Company Company { get; set; } = new Company();
+        public Company Company { get; set; } = default!; // = new Company();
     }
 }

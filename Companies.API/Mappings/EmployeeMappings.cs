@@ -12,6 +12,8 @@ namespace Companies.API.Mappings
                 .ForMember(
                 dest => dest.Position,
                 from => from.MapFrom(e => e.Department.Name));
+
+            CreateMap<EmployeesForUpdateDto, Employee>().ReverseMap();
         }
     }
 }
