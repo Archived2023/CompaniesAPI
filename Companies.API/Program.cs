@@ -4,6 +4,7 @@ using Companies.API.Data;
 using Companies.API.Extensions;
 using Companies.API.Mappings;
 using Companies.API.Middleware;
+using Companies.API.Repositorys;
 
 namespace Companies.API
 {
@@ -31,6 +32,7 @@ namespace Companies.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
+            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();    
 
             var app = builder.Build();
 
