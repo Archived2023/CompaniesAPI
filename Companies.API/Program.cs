@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Companies.API.Data;
 using Companies.API.Extensions;
 using Companies.API.Mappings;
+using Companies.API.Middleware;
 
 namespace Companies.API
 {
@@ -44,6 +45,16 @@ namespace Companies.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
+            app.UseDemo();
+
+            //app.Map("/hej", builder =>
+            //{
+            //    builder.Run(async context =>
+            //    {
+            //        await context.Response.WriteAsync("Application return if route was hej!");
+            //    });
+            //});
 
 
             app.MapControllers();
