@@ -34,16 +34,25 @@ namespace Companies.API.Controllers
             //                              mapper.ProjectTo<CompanyDto>(_context.Companies); 
 
             var dtos = includeEmployees ? await mapper.ProjectTo<CompanyDto>(_context.Companies).ToListAsync() :
-                                          mapper.Map<IEnumerable<CompanyDto>>(await _context.Companies.ToListAsync());
+                                          mapper.Map<IEnumerable<CompanyDto>>(await GetAsync());
 
             return Ok(dtos);
+        }
+
+        private async Task<List<Company>> GetAsync()
+        {
+            return await _context.Companies.ToListAsync();
+        }
+        private async Task<Company?> GetAsync(Guid id)
+        {
+            return await _context.Companies.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         // GET: api/Companies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(Guid id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            Company? company = await GetAsync(id);
 
             if (company == null)
             {
@@ -55,6 +64,7 @@ namespace Companies.API.Controllers
             return Ok(companyDto);
         }
 
+
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -65,7 +75,7 @@ namespace Companies.API.Controllers
                 return BadRequest();
             }
 
-            var existingCompany = await _context.Companies.FirstOrDefaultAsync(c => c.Id == id);
+            var existingCompany = await GetAsync(id);
 
             if(existingCompany == null) return NotFound();
 
@@ -95,7 +105,7 @@ namespace Companies.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(Guid id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            var company = await GetAsync(id);
             if (company == null)
             {
                 return NotFound();
