@@ -5,6 +5,7 @@ using Companies.API.Extensions;
 using Companies.API.Mappings;
 using Companies.API.Middleware;
 using Companies.API.Repositorys;
+using Companies.API.Services;
 
 namespace Companies.API
 {
@@ -33,8 +34,12 @@ namespace Companies.API
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped(provider => new Lazy<ICompanyRepository>(() => provider.GetRequiredService<ICompanyRepository>()));
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();    
+            builder.Services.AddScoped(provider => new Lazy<ICompanyService>(() => provider.GetRequiredService<ICompanyService>()));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();  
+            builder.Services.AddScoped<IServiceManager, ServiceManager>();
+
 
             var app = builder.Build();
 

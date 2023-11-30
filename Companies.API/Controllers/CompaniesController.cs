@@ -10,6 +10,7 @@ using Companies.API.Entities;
 using Companies.API.Dtos.CompaniesDtos;
 using AutoMapper;
 using Companies.API.Repositorys;
+using Companies.API.Services;
 
 namespace Companies.API.Controllers
 {
@@ -17,16 +18,13 @@ namespace Companies.API.Controllers
     [ApiController]
     public class CompaniesController : ControllerBase
     {
-        private readonly IMapper mapper;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IServiceManager serviceManager;
 
-        public CompaniesController(IMapper mapper, IUnitOfWork unitOfWork)
+        public CompaniesController(IServiceManager serviceManager)
         {
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
+            this.serviceManager = serviceManager;
         }
 
-        // GET: api/Companies
         [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
         {
@@ -61,57 +59,57 @@ namespace Companies.API.Controllers
 
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(Guid id, CompanyForUpdateDto dto)
-        {
-            if (id != dto.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutCompany(Guid id, CompanyForUpdateDto dto)
+        //{
+        //    if (id != dto.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var existingCompany = await unitOfWork.CompanyRepository.GetAsync(id);
+        //    var existingCompany = await unitOfWork.CompanyRepository.GetAsync(id);
 
-            if (existingCompany == null) return NotFound();
+        //    if (existingCompany == null) return NotFound();
 
-            mapper.Map(dto, existingCompany);
-            await unitOfWork.CompleteAsync();
+        //    mapper.Map(dto, existingCompany);
+        //    await unitOfWork.CompleteAsync();
 
-           // return NoContent();
-           return Ok(mapper.Map<CompanyDto>(existingCompany)); //Only for demo!!!! 
-        }
+        //   // return NoContent();
+        //   return Ok(mapper.Map<CompanyDto>(existingCompany)); //Only for demo!!!! 
+        //}
 
-        //// POST: api/Companies
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany(CompanyForCreationDto dto)
-        {
-            var company = mapper.Map<Company>(dto);
+        ////// POST: api/Companies
+        ////// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //public async Task<ActionResult<Company>> PostCompany(CompanyForCreationDto dto)
+        //{
+        //    var company = mapper.Map<Company>(dto);
 
-            await unitOfWork.CompanyRepository.AddAsync(company);
-            // _context.Companies.Add(company);
-            await unitOfWork.CompleteAsync();
+        //    await unitOfWork.CompanyRepository.AddAsync(company);
+        //    // _context.Companies.Add(company);
+        //    await unitOfWork.CompleteAsync();
 
-            var companyToReturn = mapper.Map<CompanyDto>(company);
+        //    var companyToReturn = mapper.Map<CompanyDto>(company);
 
-            return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyToReturn);
-        }
+        //    return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyToReturn);
+        //}
 
-        //// DELETE: api/Companies/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany(Guid id)
-        {
-            var company = await unitOfWork.CompanyRepository.GetAsync(id);
-            if (company == null)
-            {
-                return NotFound();
-            }
+        ////// DELETE: api/Companies/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteCompany(Guid id)
+        //{
+        //    var company = await unitOfWork.CompanyRepository.GetAsync(id);
+        //    if (company == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            unitOfWork.CompanyRepository.Remove(company);
-            // _context.Companies.Remove(company);
-            await unitOfWork.CompleteAsync();
+        //    unitOfWork.CompanyRepository.Remove(company);
+        //    // _context.Companies.Remove(company);
+        //    await unitOfWork.CompleteAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         //private bool CompanyExists(Guid id)
         //{
