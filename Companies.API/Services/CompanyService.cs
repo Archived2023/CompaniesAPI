@@ -29,5 +29,14 @@ namespace Companies.API.Services
             var company = await unitOfWork.CompanyRepository.GetAsync(id) ?? throw new CompanyNotFoundException(id);
             return mapper.Map<CompanyDto>(company);
         }
+
+        public async Task UpdateAsync(Guid id, CompanyForUpdateDto dto)
+        {
+            var company = await unitOfWork.CompanyRepository.GetAsync(id) ?? throw new CompanyNotFoundException(id);
+            mapper.Map(dto, company);
+            unitOfWork.CompanyRepository.Update(company);
+            await unitOfWork.CompleteAsync();
+
+        }
     }
 }
