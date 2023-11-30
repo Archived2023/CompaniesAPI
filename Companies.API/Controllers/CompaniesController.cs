@@ -17,13 +17,13 @@ namespace Companies.API.Controllers
     [ApiController]
     public class CompaniesController : ControllerBase
     {
-        private readonly APIContext _context;
+       // private readonly APIContext _context;
         private readonly IMapper mapper;
         private readonly ICompanyRepository companyRepository;
 
         public CompaniesController(APIContext context, IMapper mapper, ICompanyRepository companyRepository)
         {
-            _context = context;
+          //  _context = context;
             this.mapper = mapper;
             this.companyRepository = companyRepository;
         }
@@ -89,7 +89,8 @@ namespace Companies.API.Controllers
         {
             var company = mapper.Map<Company>(dto);
 
-            _context.Companies.Add(company);
+            await companyRepository.AddAsync(company);
+           // _context.Companies.Add(company);
             await _context.SaveChangesAsync();
 
             var companyToReturn = mapper.Map<CompanyDto>(company);
@@ -107,7 +108,8 @@ namespace Companies.API.Controllers
                 return NotFound();
             }
 
-            _context.Companies.Remove(company);
+            companyRepository.Remove(company);
+           // _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
 
             return NoContent();
