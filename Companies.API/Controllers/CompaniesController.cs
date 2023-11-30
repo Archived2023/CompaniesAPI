@@ -29,9 +29,7 @@ namespace Companies.API.Controllers
         [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
         {
-            // throw new Exception("From controller");
-            throw new CompanyNotFoundException(Guid.NewGuid());
-            return   Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
+            return  Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
         }
 
         [HttpGet("{id}")]
