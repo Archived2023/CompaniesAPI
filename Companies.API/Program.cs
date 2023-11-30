@@ -32,7 +32,8 @@ namespace Companies.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
-            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();    
+            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+            builder.Services.AddScoped(provider => new Lazy<ICompanyRepository>(() => provider.GetRequiredService<ICompanyRepository>()));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();    
 
             var app = builder.Build();
