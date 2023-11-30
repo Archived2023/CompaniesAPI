@@ -33,14 +33,8 @@ namespace Companies.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
-            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-            builder.Services.AddScoped<ICompanyService, CompanyService>();
-            builder.Services.AddScoped(provider => new Lazy<ICompanyRepository>(() => provider.GetRequiredService<ICompanyRepository>()));
-            builder.Services.AddScoped(provider => new Lazy<ICompanyService>(() => provider.GetRequiredService<ICompanyService>()));
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();  
-            builder.Services.AddScoped<IServiceManager, ServiceManager>();
-
-
+            builder.Services.AddRepositories();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
