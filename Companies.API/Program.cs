@@ -37,7 +37,9 @@ namespace Companies.API
             
             var app = builder.Build();
 
-            app.UseExceptionHandler()
+            //app.UseExceptionHandler();
+
+            app.UseConfigureExceptionHandler();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

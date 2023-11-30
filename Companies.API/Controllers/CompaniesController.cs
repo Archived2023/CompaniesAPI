@@ -26,8 +26,12 @@ namespace Companies.API.Controllers
         }
 
         [HttpGet(Name = "RouteName")]
-        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false) =>
-                Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
+        {
+            throw new Exception("From controller");
+
+            return   Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(Guid id) =>
