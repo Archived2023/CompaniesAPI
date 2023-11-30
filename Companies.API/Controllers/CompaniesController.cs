@@ -30,15 +30,9 @@ namespace Companies.API.Controllers
                 Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(Guid id)
-        {
-            var companyDto = await serviceManager.CompanyService.GetAsync(id);
-            if (companyDto == null)
-            {
-                return NotFound();
-            }
-            return Ok(companyDto);
-        }
+        public async Task<ActionResult<Company>> GetCompany(Guid id) =>
+            Ok((CompanyDto?)await serviceManager.CompanyService.GetAsync(id));
+        
 
 
         // PUT: api/Companies/5
