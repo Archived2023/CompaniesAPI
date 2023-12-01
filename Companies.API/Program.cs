@@ -34,8 +34,9 @@ namespace Companies.API
                     new ProducesResponseTypeAttribute(
                         StatusCodes.Status500InternalServerError));
             })
-            .AddNewtonsoftJson();
-                //.AddXmlDataContractSerializerFormatters();
+            .AddNewtonsoftJson()
+            .AddXmlDataContractSerializerFormatters();
+               
 
             builder.Services.AddDbContext<APIContext>(options =>
               options.UseSqlServer(builder.Configuration.GetConnectionString("APIContext") 

@@ -16,6 +16,7 @@ namespace Companies.API.Controllers
 {
     [Route("api/companies/{companyId:guid}/employees")]
     [ApiController]
+    [Produces("application/json", "application/xml")]
     public class EmployeesController : ControllerBase
     {
         private readonly APIContext db;
@@ -90,6 +91,7 @@ namespace Companies.API.Controllers
         /// 
         /// </remarks>
         [HttpPatch("{employeeId}")]
+        [Consumes("application/json", "application/xml")]
         public async Task<ActionResult> PatchEmployee(
             Guid companyId,
             Guid employeeId,
