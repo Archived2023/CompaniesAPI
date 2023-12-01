@@ -25,13 +25,17 @@ namespace Companies.API.Controllers
         {
             this.serviceManager = serviceManager;
         }
-
         [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
         {
             return  Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
         }
 
+        /// <summary>
+        /// Get a company by Id
+        /// </summary>
+        /// <param name="id">The Id of the company you want to get</param>
+        /// <returns>A company with id, name, adress and employees</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(Guid id) =>
             Ok((CompanyDto?)await serviceManager.CompanyService.GetAsync(id));

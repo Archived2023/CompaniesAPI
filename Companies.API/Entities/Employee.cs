@@ -2,6 +2,7 @@
 
 namespace Companies.API.Entities
 {
+#pragma warning disable CS1591
     public class Employee
     {
         public Guid Id { get; set; }
@@ -22,4 +23,5 @@ namespace Companies.API.Entities
         public Guid CompanyId { get; set; }
         public Company Company { get; set; } = default!; // = new Company();
     }
+#pragma warning restore C1591
 }

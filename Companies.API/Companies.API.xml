@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Companies.API</name>
+    </assembly>
+    <members>
+        <member name="M:Companies.API.Controllers.CompaniesController.GetCompany(System.Guid)">
+            <summary>
+            Get a company by Id
+            </summary>
+            <param name="id">The Id of the company you want to get</param>
+            <returns>A company with id, name, adress and employees</returns>
+        </member>
+        <member name="M:Companies.API.Controllers.EmployeesController.PatchEmployee(System.Guid,System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Companies.API.Dtos.EmployeesDtos.EmployeesForUpdateDto})">
+            <summary>
+            Updating a employee
+            </summary>
+            <param name="companyId">The Id of the company</param>
+            <param name="employeeId">The Id of the employee to update</param>
+            <param name="patchDoc"></param>
+            <returns>An ActionResult</returns>
+            <remarks>
+            Sample request (this request updates the employees information):
+            PATCH /employees/{id}
+            [ \
+             { \
+             "op": "replace", \
+             "path": "/name", \
+             "value": "new name" } \
+             } \
+             { \
+             "op": "replace", \
+             "path": "/age", \
+             "value": 25 } \
+            ]
+            
+            </remarks>
+        </member>
+        <member name="P:Companies.API.Dtos.CompaniesDtos.CompanyForManipulationDto.Name">
+            <summary>
+            Name of company for update
+            </summary>
+        </member>
+        <member name="P:Companies.API.Dtos.CompaniesDtos.CompanyForManipulationDto.Address">
+            <summary>
+            Address of company for update
+            </summary>
+        </member>
+        <member name="T:Companies.API.Dtos.CompaniesDtos.CompanyForUpdateDto">
+            <summary>
+            A company for update with Id field inheriting values for Name and Address from CompanyForManipuationDto
+            </summary>
+        </member>
+        <member name="P:Companies.API.Dtos.CompaniesDtos.CompanyForUpdateDto.Id">
+            <summary>
+            Id for the company to be updated
+            </summary>
+        </member>
+        <member name="T:Companies.API.Entities.Company">
+            <summary>
+            A company with Id, Name, Address and Country fields
+            </summary>
+        </member>
+        <member name="P:Companies.API.Entities.Company.Id">
+            <summary>
+            Id of the compay
+            </summary>
+        </member>
+        <member name="P:Companies.API.Entities.Company.Name">
+            <summary>
+            Name of the company
+            </summary>
+        </member>
+        <member name="P:Companies.API.Entities.Company.Address">
+            <summary>
+            Address of the company
+            </summary>
+        </member>
+        <member name="P:Companies.API.Entities.Company.Country">
+            <summary>
+            Country of the company
+            </summary>     
+        </member>
+        <member name="T:Companies.API.Migrations.Init">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Init.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Init.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Init.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Companies.API.Migrations.Department">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Department.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Department.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Companies.API.Migrations.Department.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

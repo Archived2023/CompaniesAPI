@@ -58,7 +58,29 @@ namespace Companies.API.Controllers
             return Ok(employeeDto);
 
         }
-
+        /// <summary>
+        /// Updating a employee
+        /// </summary>
+        /// <param name="companyId">The Id of the company</param>
+        /// <param name="employeeId">The Id of the employee to update</param>
+        /// <param name="patchDoc"></param>
+        /// <returns>An ActionResult</returns>
+        /// <remarks>
+        /// Sample request (this request updates the employees information):
+        /// PATCH /employees/{id}
+        /// [ \
+        ///  { \
+        ///  "op": "replace", \
+        ///  "path": "/name", \
+        ///  "value": "new name" } \
+        ///  } \
+        ///  { \
+        ///  "op": "replace", \
+        ///  "path": "/age", \
+        ///  "value": 25 } \
+        /// ]
+        /// 
+        /// </remarks>
         [HttpPatch("{employeeId}")]
         public async Task<ActionResult> PatchEmployee(
             Guid companyId,

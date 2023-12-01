@@ -6,6 +6,7 @@ using Companies.API.Mappings;
 using Companies.API.Middleware;
 using Companies.API.Repositorys;
 using Companies.API.Services;
+using System.Reflection;
 
 namespace Companies.API
 {
@@ -31,7 +32,19 @@ namespace Companies.API
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc("CompaniesOpenAPISpecification", new()
+                {
+                    Title = "Companies API",
+                    Version = "1"
+                });
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+                setupAction.IncludeXmlComments(xmlPath);
+
+            });
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
             builder.Services.AddRepositories();
             
@@ -45,7 +58,12 @@ namespace Companies.API
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI( setupAction =>
+                {
+                    setupAction.SwaggerEndpoint("/swagger/CompaniesOpenAPISpecification/swagger.json",
+                        "Company API");
+                    setupAction.RoutePrefix = "swagger";
+                });
                 await app.SeedDataAsync();
             }
 
