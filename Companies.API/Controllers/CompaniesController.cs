@@ -17,6 +17,9 @@ namespace Companies.API.Controllers
 {
     [Route("api/companies")]
     [ApiController]
+    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+    //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
+    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CompaniesController : ControllerBase
     {
         private readonly IServiceManager serviceManager;
@@ -45,6 +48,9 @@ namespace Companies.API.Controllers
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutCompany(Guid id, CompanyForUpdateDto dto)
         {
             if (id != dto.Id) return BadRequest(); //ToDo create Filter

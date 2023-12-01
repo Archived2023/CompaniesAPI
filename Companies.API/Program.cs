@@ -7,6 +7,7 @@ using Companies.API.Middleware;
 using Companies.API.Repositorys;
 using Companies.API.Services;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Companies.API
 {
@@ -22,6 +23,16 @@ namespace Companies.API
             builder.Services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
+
+                options.Filters.Add(
+                    new ProducesResponseTypeAttribute(
+                        StatusCodes.Status400BadRequest)); 
+                options.Filters.Add(
+                    new ProducesResponseTypeAttribute(
+                        StatusCodes.Status406NotAcceptable));
+                options.Filters.Add(
+                    new ProducesResponseTypeAttribute(
+                        StatusCodes.Status500InternalServerError));
             })
             .AddNewtonsoftJson();
                 //.AddXmlDataContractSerializerFormatters();
@@ -37,7 +48,20 @@ namespace Companies.API
                 setupAction.SwaggerDoc("CompaniesOpenAPISpecification", new()
                 {
                     Title = "Companies API",
-                    Version = "1"
+                    Version = "1",
+                    Description = "Through this API you can get information about companies and their employees",
+                    Contact = new()
+                    {
+                        Email = "jonathan.krall@lexicon.se",
+                        Name = "Jonathan Krall",
+                        Url = new Uri("https://www.lexicon.se")
+                    },
+                    License = new()
+                    {
+                        Name = "MIT License",
+                        Url = new Uri("https://opensource.org/licenses/MIT")
+                    }
+
                 });
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);

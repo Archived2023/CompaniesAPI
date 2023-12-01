@@ -28,6 +28,14 @@ namespace Companies.API.Controllers
         }
 
         // GET: api/Employees
+        /// <summary>
+        /// Get employees by CompanyId
+        /// </summary>
+        /// <param name="companyId">The Id of the company</param>
+        /// <returns>An ActionResult of an IEnumerable of EmployeeDto</returns>
+        /// <response code="200">Returned the employees from the requested company</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployee(Guid companyId)
         {
