@@ -14,9 +14,9 @@ namespace Companies.Client.Controllers
         private readonly HttpClient httpClient;
         private const string json = "application/json";
 
-        public HomeController()
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            httpClient = new HttpClient();
+            httpClient = httpClientFactory.CreateClient();
             httpClient.BaseAddress = new Uri("https://localhost:7157");
         }
 
