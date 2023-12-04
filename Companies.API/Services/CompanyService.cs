@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Companies.API.Dtos.CompaniesDtos;
+using Companies.API.Entities;
 using Companies.API.Exceptions;
 using Companies.API.Repositorys;
 
@@ -27,6 +28,14 @@ namespace Companies.API.Services
         public async Task<CompanyDto> GetAsync(Guid id)
         {
             var company = await unitOfWork.CompanyRepository.GetAsync(id) ?? throw new CompanyNotFoundException(id);
+            return mapper.Map<CompanyDto>(company);
+        }
+
+        public async Task<CompanyDto> PostAsync(CompanyForCreationDto dto)
+        {
+            var company = mapper.Map<Company>(dto);
+            await unitOfWork.CompanyRepository.AddAsync(company);
+            await unitOfWork.CompleteAsync();
             return mapper.Map<CompanyDto>(company);
         }
 

@@ -32,7 +32,31 @@ namespace Companies.Client.Controllers
 
         private async Task<CompanyDto> PostWithRequestMessageAsync()
         {
-           
+            var requst = new HttpRequestMessage(HttpMethod.Post, "api/companies");
+            requst.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
+
+            var companyToCreate = new CompanyForCreationDto
+            {
+                Name = "Apelsinkompaniet",
+                Address = "Sveavägen 34",
+                Country = "Sweden"
+            };
+
+            var jsonCompany = JsonSerializer.Serialize(companyToCreate);
+
+            requst.Content = new StringContent(jsonCompany);
+            requst.Content.Headers.ContentType = new MediaTypeHeaderValue(json);
+
+            var response = await httpClient.SendAsync(requst);
+            response.EnsureSuccessStatusCode();
+
+            var res = await response.Content.ReadAsStringAsync();
+
+            var companyDto = JsonSerializer.Deserialize<CompanyDto>(res, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            var location = response.Headers.Location;
+            return companyDto!;
+
+
         }
 
         private async Task<IEnumerable<CompanyDto>> GetWithRequestMessageAsync()

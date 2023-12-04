@@ -50,19 +50,12 @@ namespace Companies.API.Controllers
 
         ////// POST: api/Companies
         ////// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Company>> PostCompany(CompanyForCreationDto dto)
-        //{
-        //    var company = mapper.Map<Company>(dto);
-
-        //    await unitOfWork.CompanyRepository.AddAsync(company);
-        //    // _context.Companies.Add(company);
-        //    await unitOfWork.CompleteAsync();
-
-        //    var companyToReturn = mapper.Map<CompanyDto>(company);
-
-        //    return CreatedAtAction(nameof(GetCompany), new { id = company.Id }, companyToReturn);
-        //}
+        [HttpPost]
+        public async Task<ActionResult<Company>> PostCompany(CompanyForCreationDto dto)
+        {
+            var companyToReturn = await serviceManager.CompanyService.PostAsync(dto);
+            return CreatedAtAction(nameof(GetCompany), new { id = companyToReturn.Id }, companyToReturn);
+        }
 
         ////// DELETE: api/Companies/5
         //[HttpDelete("{id}")]
@@ -81,6 +74,6 @@ namespace Companies.API.Controllers
         //    return NoContent();
         //}
 
-       
+
     }
 }
