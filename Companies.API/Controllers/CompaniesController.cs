@@ -17,7 +17,7 @@ namespace Companies.API.Controllers
 {
     [Route("api/companies")]
     [ApiController]
-    public class CompaniesController : ControllerBase
+    public class CompaniesController : ResponseController
     {
         private readonly IServiceManager serviceManager;
 
@@ -34,7 +34,7 @@ namespace Companies.API.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(Guid id) =>
-            Ok((CompanyDto?)await serviceManager.CompanyService.GetAsync(id));
+            Ok(await serviceManager.CompanyService.GetAsync(id));
 
 
 

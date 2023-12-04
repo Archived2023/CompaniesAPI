@@ -2,6 +2,7 @@
 using Companies.API.Dtos.CompaniesDtos;
 using Companies.API.Exceptions;
 using Companies.API.Repositorys;
+using Companies.API.Responses;
 
 namespace Companies.API.Services
 {
@@ -16,12 +17,12 @@ namespace Companies.API.Services
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<CompanyDto>> GetAsync(bool includeEmployees = false)
+        public async Task<BaseResponse> GetAsync(bool includeEmployees = false)
         {
             //Maybe some more logic from another service
             var companies = await unitOfWork.CompanyRepository.GetAsync(includeEmployees);
             var dtos = mapper.Map<IEnumerable<CompanyDto>>(companies);
-            return dtos;
+            return new OkResponse<IEnumerable<CompanyDto>>(dtos);
         }
 
         public async Task<CompanyDto> GetAsync(Guid id)
