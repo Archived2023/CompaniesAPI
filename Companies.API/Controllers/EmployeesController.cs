@@ -72,7 +72,7 @@ namespace Companies.API.Controllers
             var empToPatch = await db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
 
             if (empToPatch is null) return NotFound();
-            if(company.Id == empToPatch.CompanyId) return BadRequest();
+            if(company.Id != empToPatch.CompanyId) return BadRequest();
 
             var dto = mapper.Map<EmployeesForUpdateDto>(empToPatch);
 

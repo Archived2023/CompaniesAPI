@@ -1,5 +1,7 @@
 using Companies.API.Dtos.CompaniesDtos;
+using Companies.API.Dtos.EmployeesDtos;
 using Companies.Client.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -24,10 +26,29 @@ namespace Companies.Client.Controllers
             //var res = await SimpleGetAsync();
             //var res2 = await SimpleGetAsync2();
             //var res3 = await GetWithRequestMessageAsync();
-            var res4 = await PostWithRequestMessageAsync();
+            //var res4 = await PostWithRequestMessageAsync();
+            await PatchWithRequestMessageAsync();
 
 
             return View();
+        }
+
+        private async Task PatchWithRequestMessageAsync()
+        {
+            var patchDocument = new JsonPatchDocument<EmployeesForUpdateDto>();
+            patchDocument.Replace(e => e.Age, 75);
+            patchDocument.Replace(e => e.Name, "Nisse");
+
+            var serializedPatchDoc = Newtonsoft.Json.JsonConvert.SerializeObject(patchDocument);
+
+            var requst = new HttpRequestMessage(HttpMethod.Patch, "api/companies/ccc6bb2f-d2c6-4fbe-033b-08dbf0dc3565/employees/807f7457-fea9-492b-c46f-08dbf0dc3567");
+            requst.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
+            requst.Content.Headers.ContentType = new MediaTypeHeaderValue(json);
+            requst.Content = new StringContent(serializedPatchDoc);
+
+
+            var response = await httpClient.SendAsync(requst);
+            response.EnsureSuccessStatusCode();
         }
 
         private async Task<CompanyDto> PostWithRequestMessageAsync()
