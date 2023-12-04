@@ -1,3 +1,6 @@
+using Companies.Client.Clients;
+using System.Net.Http.Headers;
+
 namespace Companies.Client
 {
     public class Program
@@ -11,6 +14,23 @@ namespace Companies.Client
 
             //1. 
             builder.Services.AddHttpClient();
+
+            //2.
+            builder.Services.AddHttpClient("CompaniesClient", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7157");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+            
+            builder.Services.AddHttpClient("SomeOtherClient", client =>
+            {
+                client.BaseAddress = new Uri("");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            });
+
+            //3
+
+            builder.Services.AddHttpClient<ICompaniesClient ,CompaniesClient>();
 
 
 
