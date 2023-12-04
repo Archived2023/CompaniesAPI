@@ -20,9 +20,15 @@ namespace Companies.Client.Controllers
         {
 
             var res = await SimpleGetAsync();
+            var res2 = await SimpleGetAsync2();
 
 
             return View();
+        }
+
+        private async Task<IEnumerable<CompanyDto>?> SimpleGetAsync2()
+        {
+            return await httpClient.GetFromJsonAsync<IEnumerable<CompanyDto>>("api/companies", new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
 
         private async Task<IEnumerable<CompanyDto>> SimpleGetAsync()
@@ -32,9 +38,10 @@ namespace Companies.Client.Controllers
 
             var res = await response.Content.ReadAsStringAsync();
 
-            var companies = JsonSerializer.Deserialize<IEnumerable<CompanyDto>>(res, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+            var companies = JsonSerializer.Deserialize<IEnumerable<CompanyDto>>(res, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
             return companies!;
         }
+
     }
 }
