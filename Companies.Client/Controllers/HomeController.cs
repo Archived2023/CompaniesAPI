@@ -1,32 +1,40 @@
+using Companies.API.Dtos.CompaniesDtos;
 using Companies.Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Companies.Client.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient httpClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+            httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://localhost:7157");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+            var res = await SimpleGetAsync();
+
+
             return View();
         }
 
-        public IActionResult Privacy()
+        private async Task<IEnumerable<CompanyDto>> SimpleGetAsync()
         {
-            return View();
-        }
+            var response = await httpClient.GetAsync("api/companies");
+            response.EnsureSuccessStatusCode();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var res = await response.Content.ReadAsStringAsync();
+
+            var companies = JsonSerializer.Deserialize<IEnumerable<CompanyDto>>(res, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+
+            return companies!;
         }
     }
 }
