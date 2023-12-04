@@ -25,10 +25,13 @@ namespace Companies.API.Services
             return new OkResponse<IEnumerable<CompanyDto>>(dtos);
         }
 
-        public async Task<CompanyDto> GetAsync(Guid id)
+        public async Task<BaseResponse> GetAsync(Guid id)
         {
-            var company = await unitOfWork.CompanyRepository.GetAsync(id) ?? throw new CompanyNotFoundException(id);
-            return mapper.Map<CompanyDto>(company);
+            var company = await unitOfWork.CompanyRepository.GetAsync(id); 
+            if(company is null)
+                return new CompanyNotFoundResponse(id);
+
+            return new OkResponse<CompanyDto>(mapper.Map<CompanyDto>(company));
         }
 
         public async Task UpdateAsync(Guid id, CompanyForUpdateDto dto)

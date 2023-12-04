@@ -12,6 +12,7 @@ using AutoMapper;
 using Companies.API.Repositorys;
 using Companies.API.Services;
 using Companies.API.Exceptions;
+using Companies.API.Responses;
 
 namespace Companies.API.Controllers
 {
@@ -29,12 +30,19 @@ namespace Companies.API.Controllers
         [HttpGet(Name = "RouteName")]
         public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany(bool includeEmployees = false)
         {
-            return  Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
+            var response = await serviceManager.CompanyService.GetAsync(includeEmployees);
+            return  Ok(((OkResponse<IEnumerable<CompanyDto>>)response).Result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(Guid id) =>
-            Ok(await serviceManager.CompanyService.GetAsync(id));
+        public async Task<ActionResult<CompanyDto>> GetCompany(Guid id)
+        {
+            var response = await serviceManager.CompanyService.GetAsync(id);
+            if(!response.Success)
+                HandleErrors(response);
+            
+            return Ok(((OkResponse<CompanyDto>)response).Result);
+        }
 
 
 
