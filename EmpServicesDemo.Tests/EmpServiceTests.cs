@@ -21,6 +21,7 @@ namespace EmpServicesDemo.Tests
             };
 
             mockValidator.Setup(x => x.ValidateName(employee)).Returns(false);
+            mockValidator.Setup(x => x.ValidateName(It.IsAny<string>())).Returns(false);
             mockValidator.Setup(x => x.ValidateSalaryLevel(employee)).Returns(SalaryLevel.Default);
             mockValidator.Setup(x => x.ValidateName2(It.Is<string>(x => x.StartsWith('K'))));
 
@@ -28,6 +29,25 @@ namespace EmpServicesDemo.Tests
             var actual = sut.RegisterUser(employee);
 
             Assert.False(actual);
+        } 
+        
+        [Fact]
+        public void RegisterUser2()
+        {
+
+            var mockValidator = new Mock<IValidator>();
+
+            var employee = new Employee
+            {
+                Name = "Pelle"
+            };
+
+            mockValidator.SetupSequence(x => x.ValidateName(It.IsAny<string>())).Returns(true).Returns(false);
+
+            var sut = new EmpService(mockValidator.Object);
+            var actual = sut.RegisterUser(employee);
+
+            Assert.True(actual);
         }
 
         [Fact]

@@ -15,7 +15,11 @@
             //Do alot of stuff...
             validator.ValidateName2(employee.Name);
 
-            return validator.ValidateName(employee);
+            var res1 = validator.ValidateName(employee.Name);
+            var res2 = validator.ValidateName(employee.Name);
+
+            if (res1 && !res2) return true;
+            else return false;
         }
 
         public bool HandleMessage(string text)
@@ -63,6 +67,7 @@
         IHandler Handler { get; }
         SalaryLevel ValidateSalaryLevel(Employee employee);
         bool ValidateName(Employee employee);
+        bool ValidateName(string name);
         void ValidateName2(string name);
         void MustBeInvoked();
         string TestProp { get; set; }
