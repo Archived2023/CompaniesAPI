@@ -63,7 +63,28 @@ namespace EmpServicesDemo.Tests
             var sut = new EmpService(mockValidator.Object);
             var actual = sut.HandleMessage(expectedText);
 
-            mockValidator.Verify(x => x.MustBeInvoked(), Times.Once);
+            mockValidator.Verify(x => x.MustBeInvoked(), Times.Exactly(2));
+        } 
+        
+        [Fact]
+        public void HandleMessage_WhenMessageMatch_TestPropGetAndSet()
+        {
+            var mockValidator = new Mock<IValidator>();
+            mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
+
+            var sut = new EmpService(mockValidator.Object);
+            var actual = sut.HandleMessage(expectedText);
+
+            mockValidator.Verify(x => x.TestProp);
+            mockValidator.VerifyGet(x => x.TestProp);
+
+            mockValidator.VerifySet(x => x.TestProp = It.IsAny<string>());
+            mockValidator.VerifySet(x => x.TestProp = It.Is<string>(s => s.Length < 10));
+            mockValidator.VerifySet(x => x.TestProp = "Banan");
+
+            mockValidator.VerifyGet(x => x.Handler.CheckMessage.Message);
+            mockValidator.Verify(x => x.MustBeInvoked(), Times.Exactly(2));
+            mockValidator.VerifyNoOtherCalls();
         }
     }
 }

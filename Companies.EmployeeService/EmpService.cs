@@ -28,10 +28,17 @@
             else
             {
                 validator.MustBeInvoked();
-               // validator.MustBeInvoked();
                 res = true;
             }
 
+            var res1 = validator.TestProp;
+            var res2 = validator.TestProp;
+            var res3 = validator.TestProp;
+
+            validator.TestProp = "Banan";
+
+            validator.MustBeInvoked();
+            //validator.ValidateName2("Kalle");
             return res; ;
         }
     }
@@ -58,6 +65,7 @@
         bool ValidateName(Employee employee);
         void ValidateName2(string name);
         void MustBeInvoked();
+        string TestProp { get; set; }
     }
 
     public interface IHandler
