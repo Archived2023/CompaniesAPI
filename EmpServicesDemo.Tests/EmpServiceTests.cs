@@ -17,7 +17,9 @@ namespace EmpServicesDemo.Tests
 
             var employee = new Employee
             {
-                Name = incorrectEmployeeName
+                Name = incorrectEmployeeName,
+                SalaryLevel = SalaryLevel.NotSet
+
             };
 
             mockValidator.Setup(x => x.ValidateName(employee)).Returns(false);
@@ -39,7 +41,8 @@ namespace EmpServicesDemo.Tests
 
             var employee = new Employee
             {
-                Name = "Pelle"
+                Name = "Pelle",
+                SalaryLevel = SalaryLevel.NotSet
             };
 
             mockValidator.SetupSequence(x => x.ValidateName(It.IsAny<string>())).Returns(true).Returns(false);
@@ -105,6 +108,13 @@ namespace EmpServicesDemo.Tests
             mockValidator.VerifyGet(x => x.Handler.CheckMessage.Message);
             mockValidator.Verify(x => x.MustBeInvoked(), Times.Exactly(2));
             mockValidator.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public void RegisterUser_WhenSalaryLevelIsDefault_SholuldThrowArgumentException()
+        {
+            var sut = new EmpService(Mock.Of<IValidator>());
+            Assert.Throws<ArgumentException>(() => sut.RegisterUser(new Employee()));
         }
     }
 }

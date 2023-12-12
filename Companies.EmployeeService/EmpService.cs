@@ -11,6 +11,8 @@
 
         public bool RegisterUser(Employee employee)
         {
+            if (employee.SalaryLevel == SalaryLevel.Default) throw new ArgumentException();
+
             var salaryLevel = validator.ValidateSalaryLevel(employee);
             //Do alot of stuff...
             validator.ValidateName2(employee.Name);
@@ -51,7 +53,7 @@
     {
         public string Name { get; set; } = string.Empty;
         public int Salary { get; set; }
-        public SalaryLevel salaryLevel { get; set; }
+        public SalaryLevel SalaryLevel { get; set; }
     }
 
     public enum SalaryLevel
