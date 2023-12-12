@@ -15,6 +15,16 @@
             //Do alot of stuff...
             return validator.ValidateName(employee);
         }
+
+        public bool HandleMessage(string text)
+        {
+            if(validator.Handler.CheckMessage.Message != text)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     public class Employee
@@ -34,7 +44,18 @@
 
     public interface IValidator
     {
+        IHandler Handler { get; }
         SalaryLevel ValidateSalaryLevel(Employee employee);
         bool ValidateName(Employee employee);
+    }
+
+    public interface IHandler
+    {
+        IMessage CheckMessage { get;  }
+    }
+
+    public interface IMessage
+    {
+        public string Message { get; }
     }
 }
