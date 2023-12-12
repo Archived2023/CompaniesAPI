@@ -34,15 +34,7 @@ namespace Companies.API
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CompanyMappings));
             builder.Services.AddRepositories();
-            builder.Services.AddCors(opt =>
-            {
-                opt.AddPolicy("CompaniesCorsPolicy", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
-            });
+            builder.Services.AddCorsPolicy();
             
             var app = builder.Build();
 

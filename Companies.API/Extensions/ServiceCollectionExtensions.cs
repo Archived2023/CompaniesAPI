@@ -14,5 +14,16 @@ namespace Companies.API.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IServiceManager, ServiceManager>();
         }
+
+        public static void AddCorsPolicy(this IServiceCollection services) => 
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CompaniesCorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
     }
 }
