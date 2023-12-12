@@ -39,10 +39,12 @@ namespace EmpServicesDemo.Tests
             //var mockValidator = new Mock<IValidator>();
             //mockValidator.Setup(x => x.Handler).Returns(iHandlerMock.Object);
 
-            var mockValidator = new Mock<IValidator>();
-            mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
+            //var mockValidator = new Mock<IValidator>();
+            //mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
 
-            var sut = new EmpService(mockValidator.Object);
+            var validator = Mock.Of<IValidator>(x => x.Handler.CheckMessage.Message == expectedText);
+
+            var sut = new EmpService(validator);
             var actual = sut.HandleMessage(expectedText);
 
             Assert.True(actual);
