@@ -24,8 +24,24 @@ namespace EmpServicesDemo.Tests
             var actual = sut.RegisterUser(employee);
 
             Assert.False(actual);
+        }
 
+        [Fact]
+        public void HandleMessage_ShouldReturnTrueIfMatch()
+        {
+            var iMessageMock = new Mock<IMessage>();
+            iMessageMock.Setup(x => x.Message).Returns("Text");
 
+            var iHandlerMock = new Mock<IHandler>();
+            iHandlerMock.Setup(x => x.CheckMessage).Returns(iMessageMock.Object);
+
+            var mockValidator = new Mock<IValidator>();
+            mockValidator.Setup(x => x.Handler).Returns(iHandlerMock.Object);
+
+            var sut = new EmpService(mockValidator.Object);
+            var actual = sut.HandleMessage("Text");
+
+            Assert.True(actual);
         }
     }
 }
