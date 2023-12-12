@@ -1,10 +1,13 @@
 using Companies.EmployeeService;
 using Moq;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmpServicesDemo.Tests
 {
     public class EmpServiceTests
     {
+        private const string expectedText = "Text";
+
         [Fact]
         public void RegisterUser_WhenIncorrectName_ShouldReturnFalse()
         {
@@ -30,7 +33,7 @@ namespace EmpServicesDemo.Tests
         [Fact]
         public void HandleMessage_ShouldReturnTrueIfMatch()
         {
-            const string expectedText = "Text";
+
             //var iMessageMock = new Mock<IMessage>();
             //iMessageMock.Setup(x => x.Message).Returns("Text");
 
@@ -49,6 +52,18 @@ namespace EmpServicesDemo.Tests
             var actual = sut.HandleMessage(expectedText);
 
             Assert.True(actual);
+        }
+
+        [Fact]
+        public void HandleMessage_VerifyMustBeInvoked_ShouldRun_Once()
+        {
+            var mockValidator = new Mock<IValidator>();
+            mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
+
+            var sut = new EmpService(mockValidator.Object);
+            var actual = sut.HandleMessage(expectedText);
+
+            mockValidator.Verify(x => x.MustBeInvoked(), Times.Once);
         }
     }
 }
