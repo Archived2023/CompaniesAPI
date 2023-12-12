@@ -8,7 +8,7 @@ namespace EmpServicesDemo.Tests
         [Fact]
         public void RegisterUser_WhenIncorrectName_ShouldReturnFalse()
         {
-            const string incorrectEmployeeName = "This is a incorrect name for an employee";
+            const string incorrectEmployeeName = "K This is a incorrect name for an employee";
 
             var mockValidator = new Mock<IValidator>(MockBehavior.Strict);
 
@@ -19,6 +19,7 @@ namespace EmpServicesDemo.Tests
 
             mockValidator.Setup(x => x.ValidateName(employee)).Returns(false);
             mockValidator.Setup(x => x.ValidateSalaryLevel(employee)).Returns(SalaryLevel.Default);
+            mockValidator.Setup(x => x.ValidateName2(It.Is<string>(x => x.StartsWith('K'))));
 
             var sut = new EmpService(mockValidator.Object);
             var actual = sut.RegisterUser(employee);

@@ -13,6 +13,8 @@
         {
             var salaryLevel = validator.ValidateSalaryLevel(employee);
             //Do alot of stuff...
+            validator.ValidateName2(employee.Name);
+
             return validator.ValidateName(employee);
         }
 
@@ -47,6 +49,7 @@
         IHandler Handler { get; }
         SalaryLevel ValidateSalaryLevel(Employee employee);
         bool ValidateName(Employee employee);
+        void ValidateName2(string name);
     }
 
     public interface IHandler
