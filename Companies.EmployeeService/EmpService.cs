@@ -11,6 +11,7 @@
 
         public bool RegisterUser(Employee employee)
         {
+            var salaryLevel = validator.ValidateSalaryLevel(employee);
             //Do alot of stuff...
             return validator.ValidateName(employee);
         }
