@@ -1,5 +1,10 @@
 ﻿namespace Companies.EmployeeService
 {
+    public class Calculator
+    {
+        public int Add(int val1, int val2) => val1 + val2;
+    }
+
     public class EmpService
     {
         private readonly IValidator validator;
