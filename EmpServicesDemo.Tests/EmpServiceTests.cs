@@ -7,13 +7,18 @@ namespace EmpServicesDemo.Tests
     public class EmpServiceTests
     {
         private const string expectedText = "Text";
+        private Mock<IValidator> mockValidator;
+
+        public EmpServiceTests()
+        {
+            mockValidator = new Mock<IValidator>();
+        }
 
         [Fact]
         public void RegisterUser_WhenIncorrectName_ShouldReturnFalse()
         {
             const string incorrectEmployeeName = "K This is a incorrect name for an employee";
 
-            var mockValidator = new Mock<IValidator>(MockBehavior.Strict);
 
             var employee = new Employee
             {
@@ -37,7 +42,6 @@ namespace EmpServicesDemo.Tests
         public void RegisterUser2()
         {
 
-            var mockValidator = new Mock<IValidator>();
 
             var employee = new Employee
             {
@@ -80,7 +84,6 @@ namespace EmpServicesDemo.Tests
         [Fact]
         public void HandleMessage_VerifyMustBeInvoked_ShouldRun_Once()
         {
-            var mockValidator = new Mock<IValidator>();
             mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
 
             var sut = new EmpService(mockValidator.Object);
@@ -92,7 +95,6 @@ namespace EmpServicesDemo.Tests
         [Fact]
         public void HandleMessage_WhenMessageMatch_TestPropGetAndSet()
         {
-            var mockValidator = new Mock<IValidator>();
             mockValidator.Setup(x => x.Handler.CheckMessage.Message).Returns(expectedText);
 
             var sut = new EmpService(mockValidator.Object);
