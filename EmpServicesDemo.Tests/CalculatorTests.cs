@@ -49,4 +49,17 @@ namespace EmpServicesDemo.Tests
             return dataSets.Count <= nrOfDataSets ? dataSets: dataSets.Take(nrOfDataSets);
         }
     }
+
+    public class UseMemberDataFromAnotherClass
+    {
+        [Theory]
+        [MemberData(nameof(CalculatorTests.GetNumbers), 2, MemberType = typeof(CalculatorTests))]
+        public void Demo(int val1, int val2)
+        {
+            var sut = new Calculator();
+            var res = sut.Add(val1, val2);
+            Assert.Equal(val1 + val2, res);
+
+        }
+    }
 }
