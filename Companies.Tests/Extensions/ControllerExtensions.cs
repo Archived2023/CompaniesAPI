@@ -38,5 +38,20 @@ namespace Companies.Tests.Extensions
                 }
             };
         }
+        
+        //public static void SetUserIsAuthenticated3(this ControllerBase controller, bool isAuthenticated)
+        //{
+        //    controller.ControllerContext = new ControllerContext
+        //    {
+        //        HttpContext = new DefaultHttpContext
+        //        {
+        //            User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+        //            {
+        //                new Claim(ClaimTypes.Role, "Admin"),
+        //                new Claim(ClaimTypes.Name, "Kalle"),
+        //            }))
+        //        }
+        //    };
+        //}
     }
 }
