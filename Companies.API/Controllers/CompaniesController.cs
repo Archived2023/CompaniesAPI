@@ -32,6 +32,7 @@ namespace Companies.API.Controllers
             return  Ok(await serviceManager.CompanyService.GetAsync(includeEmployees));
         }
 
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Company>> GetCompany(Guid id) =>
             Ok((CompanyDto?)await serviceManager.CompanyService.GetAsync(id));

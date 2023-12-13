@@ -11,6 +11,9 @@ using Companies.API.Dtos.EmployeesDtos;
 using AutoMapper;
 using Azure;
 using Microsoft.AspNetCore.JsonPatch;
+using Companies.API.Repositorys;
+using Microsoft.AspNetCore.Identity;
+using Companies.API.Dtos.CompaniesDtos;
 
 namespace Companies.API.Controllers
 {
@@ -18,6 +21,10 @@ namespace Companies.API.Controllers
     [ApiController]
     public class TestDemoController : ControllerBase
     {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+        private readonly UserManager<IdentityUser> userManager;
+
         //private readonly APIContext db;
         //private readonly IMapper mapper;
 
@@ -27,9 +34,11 @@ namespace Companies.API.Controllers
         //    this.mapper = mapper;
         //}
 
-        public TestDemoController()
+        public TestDemoController(IUnitOfWork unitOfWork, IMapper mapper, UserManager<IdentityUser> userManager)
         {
-            
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         // GET: api/Employees
@@ -48,6 +57,13 @@ namespace Companies.API.Controllers
                 return BadRequest("Not Allowed");
 
 
+        }
+
+        public async Task<ActionResult<IEnumerable<CompanyDto>>> GetCompany()
+        {
+            var companies = await unitOfWork.CompanyRepository.GetAsync();
+            var dtos = mapper.Map<IEnumerable<CompanyDto>>(companies);
+            return Ok(dtos);
         }
 
 

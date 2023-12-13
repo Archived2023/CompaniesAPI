@@ -8,16 +8,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Companies.Tests.Extensions;
+using Companies.API.Repositorys;
+using AutoMapper;
+using Companies.API.Mappings;
+using Microsoft.AspNetCore.Identity;
+using Companies.API.Entities;
+using Companies.API.Dtos.CompaniesDtos;
 
 namespace Companies.Tests.Controllers
 {
-    public class TestDemoControllerTests
+    public class TestDemoControllerTests : IDisposable
     {
         private TestDemoController sut;
+        private Mock<ICompanyRepository> mockRepo;
 
         public TestDemoControllerTests()
         {
-            sut = new TestDemoController();
+            mockRepo  = new Mock<ICompanyRepository>();
+            var mockUow = new Mock<IUnitOfWork>();
+
+            mockUow.Setup(x => x.CompanyRepository).Returns(mockRepo.Object);
+
+            var mapper = new Mapper(new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<CompanyMappings>();
+            }));
+
+            var mockUserStore = new Mock<IUserStore<IdentityUser>>();
+            var userManger = new UserManager<IdentityUser>(mockUserStore.Object,null, null, null, null, null, null, null, null);
+
+            sut = new TestDemoController(mockUow.Object, mapper, userManger);
         }
 
         [Fact]
@@ -63,5 +83,51 @@ namespace Companies.Tests.Controllers
 
         }
 
+        [Fact]
+        public async Task GetCompany_ShouldReturn200Ok()
+        {
+            var companies = GetCompanys();
+            mockRepo.Setup(x => x.GetAsync(false)).ReturnsAsync(companies);
+
+            var output = await sut.GetCompany();
+
+            var resultType = output.Result as OkObjectResult;
+
+            Assert.IsType<OkObjectResult>(resultType);
+            Assert.Equal(StatusCodes.Status200OK, resultType.StatusCode);
+
+            var items = resultType.Value as List<CompanyDto>;
+            Assert.IsType<List<CompanyDto>>(items);
+
+            Assert.Equal(items.Count, companies.Count);
+        }
+
+        private List<Company> GetCompanys()
+        {
+            return new List<Company>
+            {
+                new Company
+                {
+                     Id = Guid.NewGuid(),
+                     Name = "Test",
+                     Address = "Ankeborg, Sweden",
+                     Employees = new List<Employee>()
+                },
+                 new Company
+                {
+                     Id = Guid.NewGuid(),
+                     Name = "Test",
+                     Address = "Ankeborg, Sweden",
+                     Employees = new List<Employee>()
+                }
+            };
+
+        }
+
+        public void Dispose()
+        {
+            //Not used here
+
+        }
     }
 }
