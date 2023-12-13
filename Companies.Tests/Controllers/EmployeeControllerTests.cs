@@ -23,10 +23,9 @@ namespace Companies.Tests.Controllers
         [Fact]
         public async Task GetEmployee_CompanyDoesentExist_ShouldReturnNotFound()
         {
-            var output = sut.GetEmployee(Guid.NewGuid());
+            var output = await sut.GetEmployee(Guid.NewGuid());
             Assert.NotNull(output);
-            var res = output.Result.Result;
-            Assert.IsType<NotFoundResult>(res);
+            Assert.IsType<NotFoundResult>(output.Result);
         }
     }
 }
