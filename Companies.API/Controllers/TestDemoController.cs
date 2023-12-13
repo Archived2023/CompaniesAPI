@@ -41,10 +41,13 @@ namespace Companies.API.Controllers
             //if(company is null) return NotFound();
 
             //var employeeDtos = mapper.Map<IEnumerable<EmployeeDto>>(company.Employees);
+           
+            if (User.Identity.IsAuthenticated)
+                return Ok("User is auth");
+            else
+                return BadRequest("Not Allowed");
 
 
-
-            return Ok();
         }
 
 
