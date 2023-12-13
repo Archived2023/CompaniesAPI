@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Companies.Tests.Extensions;
 
 namespace Companies.Tests.Controllers
 {
@@ -19,27 +20,21 @@ namespace Companies.Tests.Controllers
             sut = new TestDemoController();
         }
 
-        [Fact(Skip = "Not working yet :)")]
+        [Fact]
         public async Task GetEmployees_ShouldReturnOkResult()
         {
+            sut.SetUserIsAuthenticated(true);
             var output = await sut.GetEmployee();
-            var okResult = output.Result as OkResult;
+            var okResult = output.Result as OkObjectResult;
 
-            Assert.IsType<OkResult>(okResult);
+            Assert.IsType<OkObjectResult>(okResult);
         }
 
         [Fact]
         public async Task GetEmployee_IfNotAuthenticated_ShouldReturnBadRequest()
         {
-            var mockHttpContext = new Mock<HttpContext>();
-            mockHttpContext.SetupGet(x => x.User.Identity.IsAuthenticated).Returns(false);
 
-            var controllerContext = new ControllerContext
-            {
-                HttpContext = mockHttpContext.Object
-            };
-
-            sut.ControllerContext = controllerContext;
+            sut.SetUserIsAuthenticated(false);
 
             var output = await sut.GetEmployee();
             var resType = output.Result as BadRequestObjectResult;
