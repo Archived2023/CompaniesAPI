@@ -18,77 +18,84 @@ namespace Companies.API.Controllers
     [ApiController]
     public class TestDemoController : ControllerBase
     {
-        private readonly APIContext db;
-        private readonly IMapper mapper;
+        //private readonly APIContext db;
+        //private readonly IMapper mapper;
 
-        public TestDemoController(APIContext context, IMapper mapper)
+        //public TestDemoController(APIContext context, IMapper mapper)
+        //{
+        //    db = context;
+        //    this.mapper = mapper;
+        //}
+
+        public TestDemoController()
         {
-            db = context;
-            this.mapper = mapper;
+            
         }
 
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployee(Guid companyId)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployee()/*Guid companyId)*/
         {
-            var company = await db.Companies.Include(c => c.Employees).ThenInclude(e => e.Department).FirstOrDefaultAsync(c => c.Id == companyId);
+            //var company = await db.Companies.Include(c => c.Employees).ThenInclude(e => e.Department).FirstOrDefaultAsync(c => c.Id == companyId);
 
-            if(company is null) return NotFound();
+            //if(company is null) return NotFound();
 
-            var employeeDtos = mapper.Map<IEnumerable<EmployeeDto>>(company.Employees);
+            //var employeeDtos = mapper.Map<IEnumerable<EmployeeDto>>(company.Employees);
 
-            return Ok(employeeDtos);
+
+
+            return Ok();
         }
 
 
-        [HttpGet("{employeeId:guid}")]
-        public async Task<ActionResult<EmployeeDto>> GetEmployeesForCompany(Guid companyId, Guid employeeId)
-        {
-            var company = await db.Companies.FirstOrDefaultAsync(c => c.Id.Equals(companyId));
+        //[HttpGet("{employeeId:guid}")]
+        //public async Task<ActionResult<EmployeeDto>> GetEmployeesForCompany(Guid companyId, Guid employeeId)
+        //{
+        //    var company = await db.Companies.FirstOrDefaultAsync(c => c.Id.Equals(companyId));
 
-            if (company is null) return NotFound("Company not found");
+        //    if (company is null) return NotFound("Company not found");
 
-            var employee = await db.Employees.Include(e => e.Department)
-                                             .FirstOrDefaultAsync(e => e.Id == employeeId);
+        //    var employee = await db.Employees.Include(e => e.Department)
+        //                                     .FirstOrDefaultAsync(e => e.Id == employeeId);
 
-            if (employee is null) return NotFound("Employee not found");
+        //    if (employee is null) return NotFound("Employee not found");
 
-            var employeeDto = mapper.Map<EmployeeDto>(employee);
+        //    var employeeDto = mapper.Map<EmployeeDto>(employee);
 
-            return Ok(employeeDto);
+        //    return Ok(employeeDto);
 
-        }
+        //}
 
-        [HttpPatch("{employeeId}")]
-        public async Task<ActionResult> PatchEmployee(
-            Guid companyId,
-            Guid employeeId,
-            JsonPatchDocument<EmployeesForUpdateDto> patchDoc)
-        {
-            var company = await db.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+        //[HttpPatch("{employeeId}")]
+        //public async Task<ActionResult> PatchEmployee(
+        //    Guid companyId,
+        //    Guid employeeId,
+        //    JsonPatchDocument<EmployeesForUpdateDto> patchDoc)
+        //{
+        //    var company = await db.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
 
-            if (company is null) return NotFound("No comp found");
+        //    if (company is null) return NotFound("No comp found");
 
-            var empToPatch = await db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
+        //    var empToPatch = await db.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
 
-            if (empToPatch is null) return NotFound();
-            if(company.Id != empToPatch.CompanyId) return BadRequest();
+        //    if (empToPatch is null) return NotFound();
+        //    if(company.Id != empToPatch.CompanyId) return BadRequest();
 
-            var dto = mapper.Map<EmployeesForUpdateDto>(empToPatch);
+        //    var dto = mapper.Map<EmployeesForUpdateDto>(empToPatch);
 
-            patchDoc.ApplyTo(dto, ModelState);
+        //    patchDoc.ApplyTo(dto, ModelState);
 
-            await TryUpdateModelAsync(dto);
+        //    await TryUpdateModelAsync(dto);
 
-            if (!ModelState.IsValid)
-                return UnprocessableEntity(ModelState);
+        //    if (!ModelState.IsValid)
+        //        return UnprocessableEntity(ModelState);
 
-            mapper.Map(dto, empToPatch);
-            db.Update(empToPatch);
-            await db.SaveChangesAsync();
+        //    mapper.Map(dto, empToPatch);
+        //    db.Update(empToPatch);
+        //    await db.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // GET: api/Employees/5
         //[HttpGet("{id}")]
