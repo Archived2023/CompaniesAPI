@@ -66,6 +66,21 @@ namespace Companies.API.Controllers
             return Ok(dtos);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Company>> GetCompany(Guid id)
+        {
+            var company = await unitOfWork.CompanyRepository.GetAsync(id);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+            var companyDto = mapper.Map<CompanyDto>(company);
+
+            return Ok(companyDto);
+        }
+
+
 
         //[HttpGet("{employeeId:guid}")]
         //public async Task<ActionResult<EmployeeDto>> GetEmployeesForCompany(Guid companyId, Guid employeeId)

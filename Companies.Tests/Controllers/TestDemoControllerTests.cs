@@ -14,30 +14,21 @@ using Companies.API.Mappings;
 using Microsoft.AspNetCore.Identity;
 using Companies.API.Entities;
 using Companies.API.Dtos.CompaniesDtos;
+using Companies.Tests.Fixtures;
 
 namespace Companies.Tests.Controllers
 {
-    public class TestDemoControllerTests : IDisposable
+    public class TestDemoControllerTests : IClassFixture<TestDemoControllerFixture>
     {
         private TestDemoController sut;
         private Mock<ICompanyRepository> mockRepo;
+        private readonly TestDemoControllerFixture fixture;
 
-        public TestDemoControllerTests()
+        public TestDemoControllerTests(TestDemoControllerFixture fixture)
         {
-            mockRepo  = new Mock<ICompanyRepository>();
-            var mockUow = new Mock<IUnitOfWork>();
-
-            mockUow.Setup(x => x.CompanyRepository).Returns(mockRepo.Object);
-
-            var mapper = new Mapper(new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<CompanyMappings>();
-            }));
-
-            var mockUserStore = new Mock<IUserStore<IdentityUser>>();
-            var userManger = new UserManager<IdentityUser>(mockUserStore.Object,null, null, null, null, null, null, null, null);
-
-            sut = new TestDemoController(mockUow.Object, mapper, userManger);
+            this.fixture = fixture;
+            sut = fixture.Controller;
+            mockRepo = fixture.MockRepo;
         }
 
         [Fact]
@@ -96,6 +87,16 @@ namespace Companies.Tests.Controllers
             Assert.Equal(items.Count, companies.Count);
         }
 
+        [Fact]
+        public async Task GetCompany_WhenNotFound_ShouldReturnNotFound()
+        {
+            var nonExistingGuid = Guid.NewGuid();
+            fixture.MockRepo.Setup(x => x.GetAsync(nonExistingGuid)).ReturnsAsync(() => null);
+
+            var output = await fixture.Controller.GetCompany(nonExistingGuid);
+            Assert.IsType<NotFoundResult>(output.Result);
+        }
+
         private List<Company> GetCompanys()
         {
             return new List<Company>
@@ -118,10 +119,10 @@ namespace Companies.Tests.Controllers
 
         }
 
-        public void Dispose()
-        {
-            //Not used here
+        //public void Dispose()
+        //{
+        //    //Not used here
 
-        }
+        //}
     }
 }
