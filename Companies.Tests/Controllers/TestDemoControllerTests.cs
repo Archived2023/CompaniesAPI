@@ -34,7 +34,7 @@ namespace Companies.Tests.Controllers
         public async Task GetEmployee_IfNotAuthenticated_ShouldReturnBadRequest()
         {
 
-            sut.SetUserIsAuthenticated(false);
+            sut.SetUserIsAuthenticated2(false);
 
             var output = await sut.GetEmployee();
             var resType = output.Result as BadRequestObjectResult;

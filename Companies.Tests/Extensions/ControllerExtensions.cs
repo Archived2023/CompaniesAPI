@@ -4,6 +4,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,20 @@ namespace Companies.Tests.Extensions
             };
 
             controller.ControllerContext = controllerContext;
+        } 
+        
+        public static void SetUserIsAuthenticated2(this ControllerBase controller, bool isAuthenticated)
+        {
+            var claimsPrincipal = new Mock<ClaimsPrincipal>();
+            claimsPrincipal.SetupGet(x => x.Identity.IsAuthenticated).Returns(isAuthenticated);
+
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = claimsPrincipal.Object
+                }
+            };
         }
     }
 }
