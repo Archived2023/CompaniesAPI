@@ -91,14 +91,8 @@ namespace Companies.Tests.Controllers
 
             var output = await sut.GetCompany();
 
-            var resultType = output.Result as OkObjectResult;
-
-            Assert.IsType<OkObjectResult>(resultType);
-            Assert.Equal(StatusCodes.Status200OK, resultType.StatusCode);
-
-            var items = resultType.Value as List<CompanyDto>;
-            Assert.IsType<List<CompanyDto>>(items);
-
+            var okResult = Assert.IsType<OkObjectResult>(output.Result);
+            var items = Assert.IsType<List<CompanyDto>>(okResult.Value);
             Assert.Equal(items.Count, companies.Count);
         }
 
