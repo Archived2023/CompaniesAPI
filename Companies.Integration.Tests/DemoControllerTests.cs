@@ -21,5 +21,22 @@ namespace Companies.Integration.Tests
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
+        [Fact]
+        public async Task Index_ShouldReturnExpectedMessage()
+        {
+            var response = await httpClient.GetAsync("");
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            Assert.Equal("Working", content);
+            Assert.Equal("text/plain", response.Content.Headers.ContentType.MediaType);
+
+        }
+
+
+
     }
 }
