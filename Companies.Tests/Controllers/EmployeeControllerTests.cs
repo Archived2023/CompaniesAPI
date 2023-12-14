@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Companies.Tests.Controllers
 {
-    public class EmployeeControllerTests :IClassFixture<TestDataBaseFixture>
+    [Collection("InMemoryCollection")]
+    public class EmployeeControllerTests //:IClassFixture<TestDataBaseFixture>
     {
         private readonly TestDataBaseFixture fixture;
         private readonly EmployeesController sut;
