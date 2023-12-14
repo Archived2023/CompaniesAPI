@@ -24,11 +24,12 @@ namespace Companies.Tests.Fixtures
             }));
 
             var options = new DbContextOptionsBuilder<APIContext>()
-                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TestDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+               // .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TestDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+                .UseInMemoryDatabase("InMemoryDB")
                 .Options;
 
             Context = new APIContext(options);
-            Context.Database.Migrate();
+            //Context.Database.Migrate();
 
             Context.Companies.AddRange(new[]
           {
