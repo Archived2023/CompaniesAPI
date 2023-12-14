@@ -27,5 +27,18 @@ namespace Companies.Tests.Controllers
             Assert.NotNull(output);
             Assert.IsType<NotFoundResult>(output.Result);
         }
+
+        [Fact]
+        public async Task GetEmployeesForCompany_CompanyExist_ShouldReturnOk()
+        {
+            var expectedCompanyId = fixture.Context.Companies.First().Id;
+            var sut = new EmployeesController(fixture.Context, fixture.Mapper);
+
+            var res = await sut.GetEmployee(expectedCompanyId);
+
+            Assert.NotNull(res);
+            Assert.IsType<OkObjectResult>(res.Result);
+        }
+
     }
 }
