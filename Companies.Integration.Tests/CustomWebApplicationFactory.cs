@@ -8,7 +8,7 @@ namespace Companies.Integration.Tests
 {
     public class CustomWebApplicationFactory<T> : WebApplicationFactory<Program>, IDisposable
     {
-        private APIContext Context = null!;
+        public APIContext Context { get; set; } = null!;
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
