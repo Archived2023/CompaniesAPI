@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Companies.EmployeeService",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmpServicesDemo.Tests", "EmpServicesDemo.Tests\EmpServicesDemo.Tests.csproj", "{AD17A6C0-9D2F-4B66-802B-518A05BE5209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Companies.Tests", "Companies.Tests\Companies.Tests.csproj", "{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Companies.Tests", "Companies.Tests\Companies.Tests.csproj", "{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Companies.Integration.Tests", "Companies.Integration.Tests\Companies.Integration.Tests.csproj", "{88628830-ED5D-452B-8890-0F931F8E62FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88628830-ED5D-452B-8890-0F931F8E62FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88628830-ED5D-452B-8890-0F931F8E62FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88628830-ED5D-452B-8890-0F931F8E62FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88628830-ED5D-452B-8890-0F931F8E62FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{9CC3E282-D964-4E47-83CF-1792A492E5E5} = {33A6642A-579D-44B3-A217-A22ADB7B1121}
 		{AD17A6C0-9D2F-4B66-802B-518A05BE5209} = {5FFF9CB5-8968-4811-AE78-2E539AF5F2A3}
 		{75DF1C7A-DB31-41CF-A819-B99B2DAE48AD} = {5FFF9CB5-8968-4811-AE78-2E539AF5F2A3}
+		{88628830-ED5D-452B-8890-0F931F8E62FB} = {5FFF9CB5-8968-4811-AE78-2E539AF5F2A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02EAF67F-54F1-4FA7-BFEE-5809F7E83398}
